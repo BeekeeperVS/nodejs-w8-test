@@ -1,4 +1,5 @@
 const express = require("express");
+const puppeteer = require("puppeteer");
 const app = express();
 const port = process.env.PORT
 const host = process.env.HOST
@@ -6,14 +7,36 @@ const host = process.env.HOST
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+
 app.get('/test', (req, res) => {
     res.send("Our api server is working correctly")
 });
 
 // POST method route
-app.post('/parser', function (req, res) {
-    res.send(req.body);
-    console.log(req.query);
+app.post('/puppeteer', function (req, res) {
+
+    const link = 'https://www.copart.com/public/data/lotdetails/solr/';
+    const linkId = req.body.lotId;
+    (async () => {
+        try {
+            let browser = await puppeteer.launch({
+                headless: false,
+                slowMo: 100,
+                devtools: true
+            })
+
+            let page = await browser.newPage();
+            await page.setViewport({
+                width: 1400, height: 900
+            })
+            await page.goto(`${link}${linkId}`);
+            const subs = await page.$eval('body', (el) => el.innerText)
+            console.log(subs)
+        } catch (e) {
+            console.log(e)
+            await browser.close();
+        }
+    })();
 });
 
 app.post('/copart-lot-parse', (req, res) => {
@@ -30,7 +53,8 @@ console.log(lotId);
         maxRedirects: 100,
 
         headers: {
-            'cookie': `${cookie}`
+            'cookie': `${cookie}`,
+            'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Safari/537.36'
         }
     };
 
@@ -42,6 +66,10 @@ console.log(lotId);
         .catch(function (error) {
             console.log(error);
         });
+
+});
+
+app.get('/selenium', (req, res) => {
 
 });
 

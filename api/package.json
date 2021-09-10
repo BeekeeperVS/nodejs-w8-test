@@ -10,6 +10,10 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^0.21.4",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "mocha": "^8.2.1",
+    "puppeteer": "^10.2.0",
+    "selenium-webdriver": "^4.0.0-rc-1",
+    "webdriver-manager": "^12.1.8"
   }
 }
