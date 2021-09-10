@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  api:
+    # Дериктория где находится Dockerfile
+    build: ./api
+    # Команды которые необходимо запустить
+    command: npm run start
+    # Рестарт контейнера
+    restart: unless-stopped
+    # Указываем которые порты нелбходимо открыть local-port | container-port
+    ports:
+      - "3000:3000"
+    # Переменныйе окруженя
+    environment:
+      - PORT=3000
+      - HOST=http://realworld-docker.com
