@@ -1,8 +1,8 @@
 const express = require("express");
 const puppeteer = require("puppeteer");
 const app = express();
-const port = process.env.PORT
-const host = process.env.HOST
+const port = 3000;//process.env.PORT
+const host = 'localhost';//process.env.HOST
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -20,9 +20,11 @@ app.post('/puppeteer', function (req, res) {
     (async () => {
         try {
             let browser = await puppeteer.launch({
-                headless: false,
+                executablePath: '/usr/bin/chromium-browser',
+                headless: true,
                 slowMo: 100,
-                devtools: true
+                devtools: false,
+                args: ['--no-sandbox', '--disable-dev-shm-usage'],
             })
 
             let page = await browser.newPage();
@@ -32,6 +34,7 @@ app.post('/puppeteer', function (req, res) {
             await page.goto(`${link}${linkId}`);
             const subs = await page.$eval('body', (el) => el.innerText)
             console.log(subs)
+            res.send(subs)
         } catch (e) {
             console.log(e)
             await browser.close();
