@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-  selenium:
+  parser:
     # Дериктория где находится Dockerfile
     build: ./puppeteer
     # Команды которые необходимо запустить
