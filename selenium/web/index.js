@@ -1,0 +1,16 @@
+const {Builder, By, Key, until} = require('selenium-webdriver');
+
+(async function example() {
+    let driver = await new Builder().usingServer('http://localhost:4444/wd/hub').forBrowser('chrome').build();
+    try {
+        await driver.get('http://www.google.com/ncr');
+        await driver.findElement(By.name('q')).sendKeys('webdriver', Key.RETURN);
+        await driver.wait(until.titleIs('webdriver - Google Search'), 1000);
+    } finally {
+        await driver.quit();
+    }
+})();
+
+        // .usingServer('http://localhost:4444/wd/hub').build();
+
+        // await browser.get("https://www.copart.com/public/data/lotdetails/solr/45554991");

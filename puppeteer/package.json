@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node src/index.js",
-    "selenium": "node src/selenium.js"
+    "start": "node src/index.js"
   },
   "author": "",
   "license": "ISC",

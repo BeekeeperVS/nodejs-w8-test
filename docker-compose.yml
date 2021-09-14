@@ -1,11 +1,11 @@
 version: '3'
 
 services:
-  api:
+  selenium:
     # Дериктория где находится Dockerfile
-    build: ./api
+    build: ./puppeteer
     # Команды которые необходимо запустить
-    command: npm run start
+#    command: xvfb-run --server-args="-screen 0 1024x768x24" npm start
     # Рестарт контейнера
     restart: unless-stopped
     # Указываем которые порты нелбходимо открыть local-port | container-port
