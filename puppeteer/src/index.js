@@ -98,12 +98,12 @@ async function initIaaiPage() {
 
     let authParams = {email: 'auctioncars834@cartreksd.com', password: 'Chanel21', rememberMe: true};
     pageAuthIaai = await browser.newPage();
-    await pageAuthIaai.setViewport({
-        width: 1800, height: 1200
-    });
-    await pageAuthIaai.goto(`${loginUrl}`, {waitUntil: 'load'});
+    // await pageAuthIaai.setViewport({
+    //     width: 1800, height: 1200
+    // });
+    await pageAuthIaai.goto(`${loginUrl}`);
 
-    // await pageAuthIaai.waitForSelector('#account');
+    await pageAuthIaai.waitForSelector('#account');
 
     // await page.type('#Email', authParams.email);
     // await page.type('#Password', authParams.password);
