@@ -37,7 +37,7 @@ app.post('/iaai-lot', (req, res) => {
         try {
             let iaaiPage = await browser.newPage();
             await iaaiPage.goto(`${lotLink}`, {waitUntil: ['domcontentloaded']})
-            let lotDetails = await iaaiPage.$eval('body', (el) => el.innerText);
+            let lotDetails = await iaaiPage.$eval('#ProductDetailsVM', (el) => el.innerText);
             await iaaiPage.close();
             res.send(lotDetails);
         } catch (e) {
