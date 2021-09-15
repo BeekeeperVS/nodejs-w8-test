@@ -39,6 +39,9 @@ app.post('/iaai-lot', (req, res) => {
             let iaaiPage = await browser.newPage();
             iaaiPage.goto(`${lotLink}`).then(() => {
                 iaaiPage.close();
+            }).catch(function (e) {
+                iaaiPage.close();
+                console.log('iaaiPage error');
             });
             await iaaiPage.waitForSelector("#ProductDetailsVM");
             let lotDetails = await iaaiPage.$eval('#ProductDetailsVM', (el) => el.innerText);
@@ -58,6 +61,9 @@ app.post('/copart-details', (req, res) => {
     (async () => {
         try {
             let copartPage = await browser.newPage();
+            await copartPage.setViewport({
+                width: 1400, height: 900
+            })
             await copartPage.goto(`${lotLink}`)
             let lotDetails = await copartPage.$eval('body', (el) => el.innerText);
             await copartPage.close();
