@@ -33,17 +33,23 @@ app.post('/init-auth-page', ((req, res) => {
 
 app.post('/iaai-lot', (req, res) => {
     let lotLink = req.body.lotLink;
+    console.log(lotLink);
     (async () => {
         try {
             let iaaiPage = await browser.newPage();
-            await iaaiPage.goto(`${lotLink}`, {waitUntil: ['domcontentloaded']})
+            iaaiPage.goto(`${lotLink}`).then(() => {
+                iaaiPage.close();
+            });
+            await iaaiPage.waitForSelector("#ProductDetailsVM");
             let lotDetails = await iaaiPage.$eval('#ProductDetailsVM', (el) => el.innerText);
-            await iaaiPage.close();
+
             res.send(lotDetails);
         } catch (e) {
             res.send({returnCode: false, msg: e.text});
         }
+
     })();
+
 });
 
 app.post('/copart-details', (req, res) => {
@@ -52,14 +58,12 @@ app.post('/copart-details', (req, res) => {
     (async () => {
         try {
             let copartPage = await browser.newPage();
-            await copartPage.setViewport({
-                width: 1400, height: 900
-            })
             await copartPage.goto(`${lotLink}`)
             let lotDetails = await copartPage.$eval('body', (el) => el.innerText);
             await copartPage.close();
             res.send(lotDetails);
         } catch (e) {
+            await copartPage.close();
             res.send({returnCode: false, msg: e.text});
         }
     })();
